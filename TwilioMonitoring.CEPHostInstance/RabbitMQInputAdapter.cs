@@ -85,6 +85,8 @@ namespace TwilioMonitoring.CEPHostInstance
         };
 
         Enqueue(ref currentEvent);
+
+        EnqueueCtiEvent(DateTimeOffset.Now);
       }
     }
   }

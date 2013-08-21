@@ -23,7 +23,7 @@ namespace TwilioMonitoring.WebEndpoint.Controllers
     {
       if (request != null)
       {
-        repo.AddMessage(string.Format("unknown,\"{0}\",\"{1}\",ending", request.From, request.To));
+        repo.AddMessage(string.Format("unknown,\"{0}\",\"{1}\",{2}", request.From, request.To, request.CallStatus));
       }
       else
       {

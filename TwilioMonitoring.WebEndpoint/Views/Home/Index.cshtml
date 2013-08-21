@@ -45,25 +45,26 @@
           chart.series[1].addPoint(point, true, shift);
         }
 
-        
+
+
       }
 
-      //myHub.client.byRawCall = function (message) {
-      //  var container = $(".call-container");
-      //  var element;
-      //  var json = JSON.parse(message);
+      myHub.client.byRawCall = function (message) {
+        var container = $(".call-container");
+        var element;
+        var json = JSON.parse(message);
 
-      //  var paragraphs = container.find("p");
+        var paragraphs = container.find("p");
 
-      //  if (container.find("p").length > 50) {
-      //    container.find("p:last-child").remove();
-      //  }
+        if (container.find("p").length > 50) {
+          container.find("p:last-child").remove();
+        }
 
-      //  element = "<p>Call from: " + json.From + " To: " + json.To + "</p>";
+        element = "<p> [" + json.CallType + "] - Call from: " + json.From + " To: " + json.To + "</p>";
 
-      //  container.prepend(element);
-      //  updateScroller();
-      //}
+        container.prepend(element);
+        updateScroller();
+      }
 
       //myHub.client.byLocation = function (message) {
       //  var json = JSON.parse(message);
@@ -148,15 +149,15 @@
 
 }
 
-<h2>RabbitMQ Events</h2>
+<h2>RabbitMQ Events: 0203 322 9301</h2>
 
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 @*<div id="columnChart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>*@
 <h2>Calls Starting:</h2>
 
 <div id="call-details">
-            <div class="live-calls">
-                <div class="call-container">
-                </div>
-            </div>
-        </div> 
+  <div class="live-calls">
+    <div class="call-container">
+    </div>
+  </div>
+</div>

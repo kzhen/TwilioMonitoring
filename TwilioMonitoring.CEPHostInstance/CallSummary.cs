@@ -14,6 +14,7 @@ namespace TwilioMonitoring.CEPHostInstance
     public override string ToString()
     {
       return string.Format("{{ \"TotalCalls\": {0}, \"EventType\" : \"{1}\" }}", TotalCalls, EventType);
+//      return string.Format("{{ \"TotalCalls\": {0} }}", TotalCalls);
     }
   }
 }

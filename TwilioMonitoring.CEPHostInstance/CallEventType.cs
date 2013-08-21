@@ -16,7 +16,7 @@ namespace TwilioMonitoring.CEPHostInstance
 
     public override string ToString()
     {
-      return string.Format("{{ \"From\" : {0}, \"To\" : {1}, \"CallType\": \"{2}\" }}", From, To, EventType);
+      return string.Format("{{ \"From\" : \"{0}\", \"To\" : \"{1}\", \"CallType\": \"{2}\" }}", From, To, EventType);
     }
   }
 }

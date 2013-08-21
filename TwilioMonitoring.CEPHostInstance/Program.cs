@@ -54,29 +54,30 @@ namespace TwilioMonitoring.CEPHostInstance
         var allCalls2 = from call in rabbitMQInput
                        select call;
 
-        //var abc2 = from win in rabbitMQInput.TumblingWindow(TimeSpan.FromSeconds(2))
-        //          select new CallSummary
-        //          {
-        //            TotalCalls = win.Count()
-        //          };
+        //var abc2 = from win in rabbitMQInput.TumblingWindow(TimeSpan.FromSeconds(10))
+        //           select new CallSummary
+        //           {
+        //             TotalCalls = win.Count()
+        //           };
 
         var abc2 = from call in rabbitMQInput
-                group call by call.EventType into groups
-                from abc in groups.TumblingWindow(TimeSpan.FromSeconds(2))
-                select new CallSummary
-                {
-                  TotalCalls = abc.Count(),
-                  EventType = groups.Key
-                };
+                   group call by call.EventType into groups
+                   from abc in groups.TumblingWindow(TimeSpan.FromSeconds(5))
+//                   from abc in groups.HoppingWindow(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(1))
+                   select new CallSummary
+                   {
+                     TotalCalls = abc.Count(),
+                     EventType = groups.Key
+                   };
 
-        var callsByLocation = from call in rabbitMQInput
-                              group call by call.Location into groups
-                              from a in groups.TumblingWindow(TimeSpan.FromSeconds(5))
-                              select new CallLocationSummary
-                              {
-                                Location = groups.Key,
-                                Total = a.Count()
-                              };
+        //var callsByLocation = from call in rabbitMQInput
+        //                      group call by call.Location into groups
+        //                      from a in groups.TumblingWindow(TimeSpan.FromSeconds(5))
+        //                      select new CallLocationSummary
+        //                      {
+        //                        Location = groups.Key,
+        //                        Total = a.Count()
+        //                      };
 
         var byConsoleSink = cepApplication.DefineStreamableSink<CallEventType>(typeof(ConsoleOutputFactory),
           GetConsoleOutputConfig(QueryType.ByCall), EventShape.Point, StreamEventOrder.ChainOrdered);
@@ -100,7 +101,7 @@ namespace TwilioMonitoring.CEPHostInstance
         //using (abc2.Bind(bySignalrSink)
         //  .Run())
         using (abc2.Bind(bySignalrSink)
-          .With(callsByLocation.Bind(bySignalrLocationSummarySink))
+          //.With(callsByLocation.Bind(bySignalrLocationSummarySink))
           .With(allCalls2.Bind(bySignalrRawCallSink))
           .Run())
         {
