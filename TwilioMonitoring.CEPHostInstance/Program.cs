@@ -17,8 +17,8 @@ namespace TwilioMonitoring.CEPHostInstance
   {
     static void Main(string[] args)
     {
-      string instanceName = "default";
-      string applicationName = "twilioAnalytics";
+      string instanceName = ConfigurationManager.AppSettings["StreamInsight_Instance"];
+      string applicationName = ConfigurationManager.AppSettings["StreamInsight_Application"];
 
       using (Server cepServer = Server.Create(instanceName))
       {
@@ -29,12 +29,11 @@ namespace TwilioMonitoring.CEPHostInstance
 
         ServiceHost host = new ServiceHost(cepServer.CreateManagementService());
         host.AddServiceEndpoint(typeof(IManagementService), new WSHttpBinding(SecurityMode.Message),
-                                "http://localhost:8090/default");
+                                ConfigurationManager.AppSettings["StreamInsight_ServiceHost"]);
 
         host.Open();
 
-        string url = "http://localhost:9876";
-
+        string url = ConfigurationManager.AppSettings["SignalR_Base_Url"];
         WebApp.Start<SignalRConfig>(url);
 
         Application cepApplication = cepServer.CreateApplication(applicationName);
@@ -124,12 +123,12 @@ namespace TwilioMonitoring.CEPHostInstance
     {
       return new RabbitMQConfig()
       {
-        Host = "disorderlydata.cloudapp.net",
-        VirtualHost = "/",
-        UserName = "guest",
-        Password = "guest",
-        Port = 5672,
-        Queue = "cep"
+        Host = ConfigurationManager.AppSettings["RabbitMQ_Host"],
+        VirtualHost = ConfigurationManager.AppSettings["RabbitMQ_VirtualHost"],
+        UserName = ConfigurationManager.AppSettings["RabbitMQ_UserName"],
+        Password = ConfigurationManager.AppSettings["RabbitMQ_Password"],
+        Port = ConfigurationManager.AppSettings["RabbitMQ_Port"],
+        Queue = ConfigurationManager.AppSettings["RabbitMQ_Queue"]
       };
     }
 
