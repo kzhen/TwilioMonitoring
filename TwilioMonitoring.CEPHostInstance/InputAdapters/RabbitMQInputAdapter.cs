@@ -6,8 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using TwilioMonitoring.CEPHostInstance.EventTypes;
+using TwilioMonitoring.Common.EventTypes;
 
 namespace TwilioMonitoring.CEPHostInstance.InputAdapters
 {
@@ -29,14 +30,34 @@ namespace TwilioMonitoring.CEPHostInstance.InputAdapters
     private EventingBasicConsumer eventingConsumer;
     private string consumerTag;
 
+    private int connectionAttempts;
+
     public RabbitMQInputAdapter(RabbitMQConfig config)
     {
       this.config = config;
     }
 
+    public override void Stop()
+    {
+      if (this.rabbitMQConnection.IsOpen)
+      {
+        if (this.consumerChannel.IsOpen)
+        {
+          if (eventingConsumer.IsRunning)
+          {
+            this.consumerChannel.BasicCancel(consumerTag);
+          }
+          this.consumerChannel.Close();
+        }
+        
+        this.rabbitMQConnection.ConnectionShutdown -= rabbitMQConnection_ConnectionShutdown;
+        this.rabbitMQConnection.Close();
+      }
+    }
+
     public override void Resume()
     {
-      
+      ConnectRabbitMQ();
     }
 
     public override void Start()
@@ -46,6 +67,8 @@ namespace TwilioMonitoring.CEPHostInstance.InputAdapters
 
     private void ConnectRabbitMQ()
     {
+      connectionAttempts++;
+
       ConnectionFactory connFactory = new ConnectionFactory()
       {
         HostName = config.Host,
@@ -55,11 +78,34 @@ namespace TwilioMonitoring.CEPHostInstance.InputAdapters
         Password = config.Password
       };
 
-      rabbitMQConnection = connFactory.CreateConnection();
-      consumerChannel = rabbitMQConnection.CreateModel();
-      eventingConsumer = new EventingBasicConsumer();
-      eventingConsumer.Received += eventingConsumer_Received;
-      consumerTag = consumerChannel.BasicConsume(config.Queue, true, eventingConsumer);
+      try
+      {
+        rabbitMQConnection = connFactory.CreateConnection();
+        consumerChannel = rabbitMQConnection.CreateModel();
+        eventingConsumer = new EventingBasicConsumer();
+        eventingConsumer.Received += eventingConsumer_Received;
+        consumerTag = consumerChannel.BasicConsume(config.Queue, true, eventingConsumer);
+        rabbitMQConnection.ConnectionShutdown += rabbitMQConnection_ConnectionShutdown;
+      }
+      catch (Exception)
+      {
+        throw;
+      }
+    }
+
+    private void rabbitMQConnection_ConnectionShutdown(IConnection connection, ShutdownEventArgs reason)
+    {
+      if (AdapterState == AdapterState.Running)
+      {
+        //sleep before attempting to reconnect
+        Thread.Sleep(1000);
+
+        //remove event handler, so it doesn't get over subscribed
+        rabbitMQConnection.ConnectionShutdown -= rabbitMQConnection_ConnectionShutdown;
+
+        //attempt to reconnect
+        ConnectRabbitMQ();
+      }
     }
 
     private void eventingConsumer_Received(IBasicConsumer sender, BasicDeliverEventArgs args)

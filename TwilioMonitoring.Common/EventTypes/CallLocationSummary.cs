@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TwilioMonitoring.CEPHostInstance.EventTypes
+namespace TwilioMonitoring.Common.EventTypes
 {
   public class CallLocationSummary
   {

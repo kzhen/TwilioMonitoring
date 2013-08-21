@@ -101,9 +101,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventTypes\CallEventType.cs" />
-    <Compile Include="EventTypes\CallLocationSummary.cs" />
-    <Compile Include="EventTypes\CallSummary.cs" />
     <Compile Include="OutputAdapters\ConsoleOutputFactory.cs" />
     <Compile Include="OutputAdapters\ConsolePointOutput.cs" />
     <Compile Include="Program.cs" />
@@ -120,7 +117,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\TwilioMonitoring.Common\TwilioMonitoring.Common.csproj">
+      <Project>{395aeb55-a065-4c15-b645-a423d653a2c6}</Project>
+      <Name>TwilioMonitoring.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>

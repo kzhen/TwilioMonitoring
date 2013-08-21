@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using TwilioMonitoring.CEPHostInstance.Config;
-using TwilioMonitoring.CEPHostInstance.EventTypes;
+using TwilioMonitoring.Common.EventTypes;
 
 namespace TwilioMonitoring.CEPHostInstance.InputAdapters
 {

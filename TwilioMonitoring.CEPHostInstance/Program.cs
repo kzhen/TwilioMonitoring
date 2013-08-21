@@ -7,7 +7,7 @@ using Microsoft.ComplexEventProcessing.Linq;
 using Microsoft.ComplexEventProcessing.ManagementService;
 using Microsoft.Owin.Hosting;
 using TwilioMonitoring.CEPHostInstance.InputAdapters;
-using TwilioMonitoring.CEPHostInstance.EventTypes;
+using TwilioMonitoring.Common.EventTypes;
 using TwilioMonitoring.CEPHostInstance.OutputAdapters;
 using TwilioMonitoring.CEPHostInstance.Config;
 
@@ -127,7 +127,7 @@ namespace TwilioMonitoring.CEPHostInstance
         VirtualHost = ConfigurationManager.AppSettings["RabbitMQ_VirtualHost"],
         UserName = ConfigurationManager.AppSettings["RabbitMQ_UserName"],
         Password = ConfigurationManager.AppSettings["RabbitMQ_Password"],
-        Port = ConfigurationManager.AppSettings["RabbitMQ_Port"],
+        Port = int.Parse(ConfigurationManager.AppSettings["RabbitMQ_Port"]),
         Queue = ConfigurationManager.AppSettings["RabbitMQ_Queue"]
       };
     }
