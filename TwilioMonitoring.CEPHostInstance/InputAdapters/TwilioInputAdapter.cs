@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using TwilioMonitoring.CEPHostInstance.Config;
+using TwilioMonitoring.CEPHostInstance.EventTypes;
 
-namespace TwilioMonitoring.CEPHostInstance
+namespace TwilioMonitoring.CEPHostInstance.InputAdapters
 {
   public class TwilioInputAdapter : TypedPointInputAdapter<CallEventType>
   {

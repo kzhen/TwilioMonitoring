@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TwilioMonitoring.CEPHostInstance
+namespace TwilioMonitoring.CEPHostInstance.OutputAdapters
 {
   public class SignalRConfig
   {

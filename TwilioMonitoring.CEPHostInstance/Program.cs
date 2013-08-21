@@ -6,6 +6,10 @@ using Microsoft.ComplexEventProcessing;
 using Microsoft.ComplexEventProcessing.Linq;
 using Microsoft.ComplexEventProcessing.ManagementService;
 using Microsoft.Owin.Hosting;
+using TwilioMonitoring.CEPHostInstance.InputAdapters;
+using TwilioMonitoring.CEPHostInstance.EventTypes;
+using TwilioMonitoring.CEPHostInstance.OutputAdapters;
+using TwilioMonitoring.CEPHostInstance.Config;
 
 namespace TwilioMonitoring.CEPHostInstance
 {

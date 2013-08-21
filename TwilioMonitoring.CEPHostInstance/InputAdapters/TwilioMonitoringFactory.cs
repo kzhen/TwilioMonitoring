@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using TwilioMonitoring.CEPHostInstance.Config;
 
-namespace TwilioMonitoring.CEPHostInstance
+namespace TwilioMonitoring.CEPHostInstance.InputAdapters
 {
-  public class RabbitMQMonitoringFactory : ITypedInputAdapterFactory<RabbitMQConfig>
+  public class TwilioMonitoringFactory : ITypedInputAdapterFactory<TwilioConfig>
   {
-    public InputAdapterBase Create<TPayload>(RabbitMQConfig configInfo, Microsoft.ComplexEventProcessing.EventShape eventShape)
+    public InputAdapterBase Create<TPayload>(TwilioConfig configInfo, Microsoft.ComplexEventProcessing.EventShape eventShape)
     {
       switch (eventShape)
       {
@@ -18,7 +18,7 @@ namespace TwilioMonitoring.CEPHostInstance
         case Microsoft.ComplexEventProcessing.EventShape.Interval:
           throw new NotImplementedException();
         case Microsoft.ComplexEventProcessing.EventShape.Point:
-          return new RabbitMQInputAdapter(configInfo);
+          return new TwilioInputAdapter(configInfo);
       }
 
       throw new NotImplementedException();

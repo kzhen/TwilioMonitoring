@@ -7,8 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TwilioMonitoring.CEPHostInstance.EventTypes;
 
-namespace TwilioMonitoring.CEPHostInstance
+namespace TwilioMonitoring.CEPHostInstance.InputAdapters
 {
   public class RabbitMQConfig
   {

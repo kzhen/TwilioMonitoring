@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TwilioMonitoring.CEPHostInstance
+namespace TwilioMonitoring.CEPHostInstance.OutputAdapters
 {
   public class ConsolePointOutput<T> : TypedPointOutputAdapter<T>
   {

@@ -100,29 +100,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CallEventType.cs" />
-    <Compile Include="CallLocationSummary.cs" />
-    <Compile Include="CallSummary.cs" />
-    <Compile Include="ConsoleOutputFactory.cs" />
-    <Compile Include="ConsolePointOutput.cs" />
+    <Compile Include="EventTypes\CallEventType.cs" />
+    <Compile Include="EventTypes\CallLocationSummary.cs" />
+    <Compile Include="EventTypes\CallSummary.cs" />
+    <Compile Include="OutputAdapters\ConsoleOutputFactory.cs" />
+    <Compile Include="OutputAdapters\ConsolePointOutput.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RabbitMQInputAdapter.cs" />
-    <Compile Include="RabbitMQMonitoringFactory.cs" />
-    <Compile Include="SignalROutputFactory.cs" />
-    <Compile Include="SignalRPointOutput.cs" />
-    <Compile Include="TwilioConfig.cs" />
-    <Compile Include="TwilioInputAdapter.cs" />
-    <Compile Include="TwilioMonitoringFactory.cs" />
+    <Compile Include="InputAdapters\RabbitMQInputAdapter.cs" />
+    <Compile Include="InputAdapters\RabbitMQMonitoringFactory.cs" />
+    <Compile Include="OutputAdapters\SignalROutputFactory.cs" />
+    <Compile Include="OutputAdapters\SignalRPointOutput.cs" />
+    <Compile Include="Config\TwilioConfig.cs" />
+    <Compile Include="InputAdapters\TwilioInputAdapter.cs" />
+    <Compile Include="InputAdapters\TwilioMonitoringFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="InputAdapters\" />
-    <Folder Include="OutputAdapters\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
