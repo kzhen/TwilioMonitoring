@@ -82,7 +82,7 @@ namespace TwilioMonitoring.CEPHostInstance.OutputAdapters
           {
             if (hubContext != null)
             {
-              Console.WriteLine("Broadcast to SignalR");
+              Console.WriteLine(string.Format("Insert Event Arrived - Payload: [{0}]", currentEvent.Payload.ToString()));
 
               switch (configInfo.Query)
               {

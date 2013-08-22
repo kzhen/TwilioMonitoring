@@ -19,6 +19,7 @@ namespace TwilioMonitoring.CEPHostInstance
     {
       string instanceName = ConfigurationManager.AppSettings["StreamInsight_Instance"];
       string applicationName = ConfigurationManager.AppSettings["StreamInsight_Application"];
+      IDisposable signalrServer;
 
       using (Server cepServer = Server.Create(instanceName))
       {
@@ -27,14 +28,20 @@ namespace TwilioMonitoring.CEPHostInstance
           cepServer.Applications[applicationName].Delete();
         }
 
+        Console.WriteLine("StreamInsight Server Up");
+
         ServiceHost host = new ServiceHost(cepServer.CreateManagementService());
         host.AddServiceEndpoint(typeof(IManagementService), new WSHttpBinding(SecurityMode.Message),
                                 ConfigurationManager.AppSettings["StreamInsight_ServiceHost"]);
 
         host.Open();
 
+        Console.WriteLine(string.Format("StreamInsight ServiceHost online: [{0}]", ConfigurationManager.AppSettings["StreamInsight_ServiceHost"]));
+
         string url = ConfigurationManager.AppSettings["SignalR_Base_Url"];
-        WebApp.Start<SignalRConfig>(url);
+        signalrServer = WebApp.Start<SignalRConfig>(url);
+
+        Console.WriteLine(string.Format("SignalR Self-Hosted Server online: [{0}]", ConfigurationManager.AppSettings["SignalR_Base_Url"]));
 
         Application cepApplication = cepServer.CreateApplication(applicationName);
 
@@ -116,6 +123,7 @@ namespace TwilioMonitoring.CEPHostInstance
         }
 
         host.Close();
+        signalrServer.Dispose();
       }
     }
 
