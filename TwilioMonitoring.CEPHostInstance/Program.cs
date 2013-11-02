@@ -70,15 +70,15 @@ namespace TwilioMonitoring.CEPHostInstance
         //             TotalCalls = win.Count()
         //           };
 
-        var abc2 = from call in rabbitMQInput
-                   group call by call.EventType into groups
-                   from abc in groups.TumblingWindow(TimeSpan.FromSeconds(5))
-//                   from abc in groups.HoppingWindow(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(1))
-                   select new CallSummary
-                   {
-                     TotalCalls = abc.Count(),
-                     EventType = groups.Key
-                   };
+var callsByType = 
+  from call in rabbitMQInput
+  group call by call.EventType into groups
+  from abc in groups.TumblingWindow(TimeSpan.FromSeconds(5))
+  select new CallSummary
+  {
+    TotalCalls = abc.Count(),
+    EventType = groups.Key
+  };
 
         //var callsByLocation = from call in rabbitMQInput
         //                      group call by call.Location into groups
@@ -110,7 +110,7 @@ namespace TwilioMonitoring.CEPHostInstance
         //  .Run())
         //using (abc2.Bind(bySignalrSink)
         //  .Run())
-        using (abc2.Bind(bySignalrSink)
+        using (callsByType.Bind(bySignalrSink)
           //.With(callsByLocation.Bind(bySignalrLocationSummarySink))
           .With(allCalls2.Bind(bySignalrRawCallSink))
           .Run())
